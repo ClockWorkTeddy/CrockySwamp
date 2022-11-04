@@ -13,6 +13,8 @@ namespace CrockySwamp
         public int CrocksCount { get; set; }
         public int FrogsCount { get; set; }
 
+        public List<Beast> Beasts { get; set; } = new List<Beast>();
+
         public Swamp(int size)
         {
             Size = size;

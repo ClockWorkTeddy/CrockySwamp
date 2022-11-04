@@ -11,10 +11,13 @@ namespace CrockySwamp
     {
         public Point Location { get; set; }
         public int StepRange {get; set;}
+
+        public int Id { get; set; }
         
-        public Beast(int x, int y)
+        public Beast(int x, int y, int id)
         {
             Location = new Point(x, y);
+            Id = id;
         }
 
         public void Move (int xDirection, int yDirection)
