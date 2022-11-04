@@ -12,7 +12,8 @@ namespace CrockySwamp
     {
         public int Size { get; set; }
         public List<Field> Fields { get; set; } = new List<Field>();
-        int FrogsCount = 10;
+        int FrogsCount = 0;
+        int CrocksCount = 0;
         public List<Beast> Beasts { get; set; } = new List<Beast>();
 
         public Swamp(int size)
@@ -24,6 +25,8 @@ namespace CrockySwamp
                 int y = i % Size;
                 Fields.Add(new Field(new Point(x, y)));
             }
+            FrogsCount = Size * Size / 3;
+            CrocksCount = FrogsCount / 3;
         }
 
         public void InitFrogs()
@@ -46,6 +49,28 @@ namespace CrockySwamp
 
             Beasts.Add(new Frog(x, y, id));
             Fields[index].State = Field.FieldState.Frog;
+        }
+
+        public void InitCrocks()
+        {
+            for (int i = 0; i < CrocksCount; i++)
+                AddCrock(i);
+        }
+
+        private void AddCrock(int id)
+        {
+            Random rnd = new Random();
+            int x, y, index = 0;
+            do
+            {
+                x = rnd.Next(Size);
+                y = rnd.Next(Size);
+                index = x * Size + y;
+            }
+            while (Fields[index].State != Field.FieldState.Empty);
+
+            Beasts.Add(new Crock(x, y, id));
+            Fields[index].State = Field.FieldState.Crock;
         }
     }
 }

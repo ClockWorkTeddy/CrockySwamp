@@ -20,6 +20,7 @@ namespace CrockySwamp
                 }
                 Console.WriteLine();
             }
+            Console.WriteLine();
         }
 
         static int GetDigitFromState(Field.FieldState state)
