@@ -10,7 +10,7 @@ namespace CrockySwamp
     internal abstract class Beast
     {
         public Point Location { get; set; }
-        public int StepRange {get; set;}
+        public abstract int StepRange {get; set;}
 
         public int Id { get; set; }
         
