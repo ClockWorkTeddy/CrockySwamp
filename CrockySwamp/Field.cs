@@ -11,9 +11,9 @@ namespace CrockySwamp
     {
         public enum FieldState
         {
-            Crock,
-            Frog,
-            Empty
+            Crock = 2,
+            Frog = 1,
+            Empty = 0
         }
 
         public Point Location { get; set; }

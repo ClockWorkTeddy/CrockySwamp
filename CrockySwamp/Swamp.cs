@@ -16,7 +16,7 @@ namespace CrockySwamp
         public Swamp(int size)
         {
             Size = size;
-            for (int i = 0; i < Size; i++)
+            for (int i = 0; i < Size * Size; i++)
             {
                 int x = i / Size;
                 int y = i % Size;
