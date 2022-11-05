@@ -47,7 +47,7 @@ namespace CrockySwamp
             } 
             while (Fields[index].State != Field.FieldState.Empty);
 
-            Beasts.Add(new Frog(x, y, id));
+            Beasts.Add(new Frog(x, y, id, this));
             Fields[index].State = Field.FieldState.Frog;
         }
 
@@ -69,7 +69,7 @@ namespace CrockySwamp
             }
             while (Fields[index].State != Field.FieldState.Empty);
 
-            Beasts.Add(new Crock(x, y, id));
+            Beasts.Add(new Crock(x, y, id, this));
             Fields[index].State = Field.FieldState.Crock;
         }
     }

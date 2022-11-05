@@ -10,7 +10,7 @@ namespace CrockySwamp
     {
         public override int StepRange { get; set; } = 1;
 
-        public Crock (int x, int y, int id) : base(x, y, id)
+        public Crock (int x, int y, int id, Swamp swamp) : base(x, y, id, swamp)
         {
 
         }

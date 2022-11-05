@@ -9,7 +9,7 @@ namespace CrockySwamp
     internal class Frog : Beast
     {
         public override int StepRange { get; set; } = 2;
-        public Frog(int x, int y, int id) : base(x, y, id)
+        public Frog(int x, int y, int id, Swamp swamp) : base(x, y, id, swamp)
         {
 
         }
