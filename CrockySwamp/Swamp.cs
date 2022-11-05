@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Reflection;
+using System.ComponentModel.DataAnnotations;
 
 namespace CrockySwamp
 {
@@ -81,6 +82,16 @@ namespace CrockySwamp
                 return Fields[index].State;
             else
                 return null;
+        }
+
+        public void RefreshFields(int oldX, int oldY, int newX, int newY
+                                          , Field.FieldState state)
+        {
+            int oldIndex = oldX * Size + oldY;
+            int newIndex = newX * Size + newY;
+
+            Fields[oldIndex].State = Field.FieldState.Empty;
+            Fields[newIndex].State = state;
         }
     }
 }

@@ -34,7 +34,11 @@ namespace CrockySwamp
 
             if (state != null)
                 if (state == Field.FieldState.Empty)
+                {
+                    SwampObj.RefreshFields(Location.X, Location.Y, newX, newY
+                                                     , Field.FieldState.Frog);
                     Location = new Point(newX, newY);
+                }
         }
     }
 }
