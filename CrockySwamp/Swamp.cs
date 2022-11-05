@@ -11,11 +11,13 @@ namespace CrockySwamp
 {
     internal class Swamp
     {
-        public int Size { get; set; }
-        public List<Field> Fields { get; set; } = new List<Field>();
         int FrogsCount = 0;
         int CrocksCount = 0;
+        public int Size { get; set; }
+        public List<Field> Fields { get; set; } = new List<Field>();
         public List<Beast> Beasts { get; set; } = new List<Beast>();
+        public delegate void SwampDrawer(Swamp swamp);
+        public SwampDrawer? Draw { get; set; }
 
         public Swamp(int size)
         {
@@ -34,6 +36,8 @@ namespace CrockySwamp
         {
             for (int i = 0; i < FrogsCount; i++)
                 AddFrog(i);
+
+            Draw?.Invoke(this);
         }
 
         void AddFrog(int id)
@@ -44,7 +48,7 @@ namespace CrockySwamp
             {
                 x = rnd.Next(Size);
                 y = rnd.Next(Size);
-                index = x * Size + y;
+                index = GetIndex(x, y);
             } 
             while (Fields[index].State != Field.FieldState.Empty);
 
@@ -56,6 +60,8 @@ namespace CrockySwamp
         {
             for (int i = 0; i < CrocksCount; i++)
                 AddCrock(i);
+
+            Draw?.Invoke(this);
         }
 
         private void AddCrock(int id)
@@ -66,7 +72,7 @@ namespace CrockySwamp
             {
                 x = rnd.Next(Size);
                 y = rnd.Next(Size);
-                index = x * Size + y;
+                index = GetIndex(x, y);
             }
             while (Fields[index].State != Field.FieldState.Empty);
 
@@ -76,8 +82,8 @@ namespace CrockySwamp
 
         public Field.FieldState? GetFieldState(int x, int y)
         {
-            int index = x * Size + y;
-            
+            int index = GetIndex(x, y);
+
             if (index >= 0 && index < Size * Size)
                 return Fields[index].State;
             else
@@ -87,8 +93,8 @@ namespace CrockySwamp
         public void RefreshFields(int oldX, int oldY, int newX, int newY
                                           , Field.FieldState state)
         {
-            int oldIndex = oldX * Size + oldY;
-            int newIndex = newX * Size + newY;
+            int oldIndex = GetIndex(oldX, oldY);
+            int newIndex = GetIndex(newX, newY);
 
             Fields[oldIndex].State = Field.FieldState.Empty;
             Fields[newIndex].State = state;
@@ -98,6 +104,16 @@ namespace CrockySwamp
         {
             foreach (var beast in Beasts)
                 beast.Move();
+
+            Draw?.Invoke(this);
+        }
+
+        int GetIndex(int x, int y)
+        {
+            if (x >= 0 && y >= 0)
+                return y * Size + x;
+            else
+                return -1;
         }
     }
 }

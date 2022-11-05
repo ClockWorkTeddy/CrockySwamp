@@ -3,26 +3,11 @@
 Console.WriteLine("Hello, Swamp!");
 int size = 5;
 Swamp swamp = new(size);
+swamp.Draw += Drawer.Draw;
+
 swamp.InitFrogs();
-Drawer.Draw(swamp);
 swamp.InitCrocks();
-Drawer.Draw(swamp);
-swamp.Move();
-Drawer.Draw(swamp);
-swamp.Move();
-Drawer.Draw(swamp);
-swamp.Move();
-Drawer.Draw(swamp);
-swamp.Move();
-Drawer.Draw(swamp);
-swamp.Move();
-Drawer.Draw(swamp);
-swamp.Move();
-Drawer.Draw(swamp);
-swamp.Move();
-Drawer.Draw(swamp);
-swamp.Move();
-Drawer.Draw(swamp);
-swamp.Move();
-Drawer.Draw(swamp);
+
+while (true)
+    swamp.Move();
 

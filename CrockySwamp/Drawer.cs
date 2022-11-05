@@ -10,11 +10,11 @@ namespace CrockySwamp
     {
         internal static void Draw(Swamp swamp)
         {
-            for (int x = 0; x < swamp.Size; x++)
+            for (int y = 0; y < swamp.Size; y++)
             {
-                for (int y = 0; y < swamp.Size; y++)
+                for (int x = 0; x < swamp.Size; x++)
                 {
-                    int index = x * swamp.Size + y;
+                    int index = y * swamp.Size + x;
                     int state = GetDigitFromState(swamp.Fields[index].State);
                     Console.Write($"{state}  ");
                 }
