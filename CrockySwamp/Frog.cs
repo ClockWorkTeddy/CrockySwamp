@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,18 @@ namespace CrockySwamp
                 message = "\"Ribbit.\"";
 
             Console.WriteLine($"Frog {Id} says {message}!");
+        }
+
+        public override void Move()
+        {
+            int newX = GetNewLocation(Location.X);
+            int newY = GetNewLocation(Location.Y);
+
+            Field.FieldState? state = SwampObj.GetFieldState(newX, newY);
+
+            if (state != null)
+                if (state == Field.FieldState.Empty)
+                    Location = new Point(newX, newY);
         }
     }
 }

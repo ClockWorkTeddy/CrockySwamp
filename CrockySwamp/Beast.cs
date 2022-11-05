@@ -11,7 +11,7 @@ namespace CrockySwamp
     {
         public Point Location { get; set; }
         public abstract int StepRange {get; set;}
-        Swamp Swamp;
+        protected Swamp SwampObj;
 
         public int Id { get; set; }
         
@@ -19,14 +19,19 @@ namespace CrockySwamp
         {
             Location = new Point(x, y);
             Id = id;
-            Swamp = swamp;
+            SwampObj = swamp;
         }
 
-        public void Move (int xDirection, int yDirection)
+        protected int GetNewLocation(int oldLocation)
         {
-            Location = new Point (Location.X + xDirection * StepRange, 
-                                  Location.Y + yDirection * StepRange);
+            Random random = new Random();
+            int direction = random.Next(-1, 2);
+
+            return oldLocation + direction * StepRange;
+
         }
+
+        public abstract void Move();
 
         public abstract void Say();
     }

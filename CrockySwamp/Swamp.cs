@@ -72,5 +72,15 @@ namespace CrockySwamp
             Beasts.Add(new Crock(x, y, id, this));
             Fields[index].State = Field.FieldState.Crock;
         }
+
+        public Field.FieldState? GetFieldState(int x, int y)
+        {
+            int index = x * Size + y;
+            
+            if (index < Size * Size)
+                return Fields[index].State;
+            else
+                return null;
+        }
     }
 }
