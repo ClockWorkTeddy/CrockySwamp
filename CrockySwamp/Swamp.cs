@@ -78,7 +78,7 @@ namespace CrockySwamp
         {
             int index = x * Size + y;
             
-            if (index < Size * Size)
+            if (index >= 0 && index < Size * Size)
                 return Fields[index].State;
             else
                 return null;
@@ -92,6 +92,12 @@ namespace CrockySwamp
 
             Fields[oldIndex].State = Field.FieldState.Empty;
             Fields[newIndex].State = state;
+        }
+
+        public void Move()
+        {
+            foreach (var beast in Beasts)
+                beast.Move();
         }
     }
 }
