@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Pastel;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,23 +12,33 @@ namespace CrockySwamp
     {
         internal static void Draw(Swamp swamp)
         {
-            Console.WriteLine();
+            Console.WriteLine($"Frogs remain: {swamp.Beasts.FindAll(b => b is Frog).Count}");
             for (int y = 0; y < swamp.Size; y++)
             {
                 for (int x = 0; x < swamp.Size; x++)
                 {
                     int index = y * swamp.Size + x;
-                    var beast = swamp.Fields[index].Beast;
-                    Console.Write($"{(beast == null ? 0 : beast.Id)}  ");
+                    var field = swamp.Fields[index];
+                    Console.Write($"{GetSymbol(field)}  ");
                 }
                 Console.WriteLine();
             }
             Console.WriteLine();
         }
-
-        static int GetDigitFromState(Field.FieldState state)
+        private static string GetSymbol(Field field)
         {
-            return ((int)state);
+            string color = GetColorByState(field.State);
+
+            return field.Beast == null ? "0".Pastel("#442200") 
+                                       : field.Beast.Id.ToString().Pastel(color);
+        }
+
+        static string GetColorByState(Field.FieldState state)
+        {
+            if (state == Field.FieldState.Frog)
+               return "#00ff00";
+            else
+                return "#008800";
         }
     }
 }
