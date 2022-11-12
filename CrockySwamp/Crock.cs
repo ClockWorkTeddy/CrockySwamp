@@ -26,13 +26,12 @@ namespace CrockySwamp
             int newX = GetNewLocation(Location.X);
             int newY = GetNewLocation(Location.Y);
 
-            Field.FieldState? state = SwampObj.GetFieldState(newX, newY);
+            Field? field = SwampObj.GetField(newX, newY);
 
-            if (state != null)
-                if (state != Field.FieldState.Crock)
+            if (field != null)
+                if (field.State != Field.FieldState.Crock)
                 {
-                    SwampObj.RefreshFields(Location.X, Location.Y, newX, newY
-                                                     , Field.FieldState.Crock);
+                    SwampObj.RefreshFields(Location.X, Location.Y, newX, newY, this);
                     Location = new Point(newX, newY);
                 }
         }

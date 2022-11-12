@@ -19,7 +19,7 @@ namespace CrockySwamp
         public Point Location { get; set; }
         public FieldState State { get; set; }
 
-        public Beast Beast { get; set; } = null;
+        public Beast? Beast { get; set; } = null;
 
         public Field (Point location, FieldState state = FieldState.Empty)
         {
