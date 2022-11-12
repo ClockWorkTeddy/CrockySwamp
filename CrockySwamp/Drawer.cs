@@ -10,6 +10,7 @@ namespace CrockySwamp
     {
         internal static void Draw(Swamp swamp)
         {
+            Console.WriteLine();
             for (int y = 0; y < swamp.Size; y++)
             {
                 for (int x = 0; x < swamp.Size; x++)

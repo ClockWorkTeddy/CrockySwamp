@@ -9,5 +9,11 @@ swamp.InitFrogs();
 swamp.InitCrocks();
 
 while (true)
+{
     swamp.Move();
+    char inputKey = Console.ReadKey().KeyChar;
+
+    if (inputKey == 'q')
+        break;
+}
 

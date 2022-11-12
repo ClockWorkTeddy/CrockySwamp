@@ -80,24 +80,29 @@ namespace CrockySwamp
             Fields[index].State = Field.FieldState.Crock;
         }
 
-        public Field.FieldState? GetFieldState(int x, int y)
+        public Field? GetField(int x, int y)
         {
             int index = GetIndex(x, y);
 
             if (index >= 0 && index < Size * Size)
-                return Fields[index].State;
+                return Fields[index];
             else
                 return null;
         }
 
-        public void RefreshFields(int oldX, int oldY, int newX, int newY
-                                          , Field.FieldState state)
+        public void RefreshFields(int oldX, int oldY, int newX, int newY, Beast beast)
         {
             int oldIndex = GetIndex(oldX, oldY);
             int newIndex = GetIndex(newX, newY);
 
             Fields[oldIndex].State = Field.FieldState.Empty;
-            Fields[newIndex].State = state;
+            Fields[newIndex].Beast = beast;
+
+            if (beast is Frog)
+                Fields[newIndex].State = Field.FieldState.Frog;
+            else
+                Fields[newIndex].State = Field.FieldState.Crock;
+
         }
 
         public void Move()
