@@ -31,6 +31,9 @@ namespace CrockySwamp
             if (field != null)
                 if (field.State != Field.FieldState.Crock)
                 {
+                    if (field.State == Field.FieldState.Frog)
+                        SwampObj.RemoveFrog(newX, newY);
+
                     SwampObj.RefreshFields(Location.X, Location.Y, newX, newY, this);
                     Location = new Point(newX, newY);
                 }

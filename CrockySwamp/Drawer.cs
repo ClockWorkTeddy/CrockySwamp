@@ -16,8 +16,8 @@ namespace CrockySwamp
                 for (int x = 0; x < swamp.Size; x++)
                 {
                     int index = y * swamp.Size + x;
-                    int state = GetDigitFromState(swamp.Fields[index].State);
-                    Console.Write($"{state}  ");
+                    var beast = swamp.Fields[index].Beast;
+                    Console.Write($"{(beast == null ? 0 : beast.Id)}  ");
                 }
                 Console.WriteLine();
             }
