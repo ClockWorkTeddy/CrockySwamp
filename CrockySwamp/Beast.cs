@@ -31,9 +31,23 @@ namespace CrockySwamp
 
         }
 
+        protected int GetProbability(int phrasesCount, double chance)
+        {
+            int cases_def = Convert.ToInt16(1 / chance);
+            int cases = Convert.ToInt16(phrasesCount / chance);
+
+            Random random = new Random();
+            int rnd = random.Next(cases);
+
+            if (rnd % cases_def == 0)
+                return rnd / cases_def;
+            else
+                return -1;
+        }
+
         public abstract void Move();
 
-        public abstract void SayHaunt();
+        public abstract void SayHaunt(int id);
 
         public abstract void SayDefault();
     }

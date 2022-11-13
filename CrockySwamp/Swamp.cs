@@ -131,14 +131,18 @@ namespace CrockySwamp
                 return -1;
         }
 
-        public void RemoveFrog(int x, int y)
+        public void RemoveFrog(int x, int y, int crockId)
         {
             int index = GetIndex(x, y);
 
             var beast = Fields[index].Beast;
 
             if (beast != null)
+            {
+                beast.SayHaunt(crockId);
                 DeadBeasts.Add(beast);
+            }
+
         }
     }
 }

@@ -19,6 +19,11 @@ namespace CrockySwamp
             "Harr!",
             "Where is that frog?!"
         };
+        private List<string> HauntPhrases = new List<string>()
+        {
+            "Mmm, there is yammy F{0} here!..",
+            "Come here, little F{0}!.."
+        };
 
         public Crock (int x, int y, int id, Swamp swamp) : base(x, y, id, swamp)
         {
@@ -27,30 +32,20 @@ namespace CrockySwamp
 
         public override void SayDefault()
         {
-            int rnd = GetProbability(Phrases.Count);
+            double chance = 0.2;
+            int rnd = GetProbability(Phrases.Count, chance);
             
             if (rnd != -1)
                 Talk?.Invoke($"C{Id}: {Phrases[rnd]}", "#008800");
         }
 
-        private int GetProbability(int phrasesCount)
+        public override void SayHaunt(int id)
         {
-            double chanse = 0.2;
-            int cases_def = Convert.ToInt16(1 / chanse);
-            int cases = Convert.ToInt16(phrasesCount / chanse);
+            double chance = 1.0;
+            int rnd = GetProbability(HauntPhrases.Count, chance);
+            StringBuilder phrase = new StringBuilder().AppendFormat(HauntPhrases[rnd], id);
 
-            Random random = new Random();
-            int rnd = random.Next(cases);
-
-            if (rnd % cases_def == 0)
-                return rnd / cases_def;
-            else
-                return -1;
-        }
-
-        public override void SayHaunt()
-        {
-            throw new NotImplementedException();
+            Talk?.Invoke($"C{Id}: {phrase}", "#008800");
         }
 
         public override void Move()
@@ -63,8 +58,11 @@ namespace CrockySwamp
             if (field != null)
                 if (field.State != Field.FieldState.Crock)
                 {
-                    if (field.State == Field.FieldState.Frog)
-                        SwampObj.RemoveFrog(newX, newY);
+                    if (field.State == Field.FieldState.Frog && field.Beast != null)
+                    {
+                        SayHaunt(field.Beast.Id);
+                        SwampObj.RemoveFrog(newX, newY, this.Id);
+                    }
 
                     SwampObj.RefreshFields(Location.X, Location.Y, newX, newY, this);
                     Location = new Point(newX, newY);
