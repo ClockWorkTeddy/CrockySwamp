@@ -15,7 +15,7 @@ namespace CrockySwamp
 
         }
 
-        public override void Say()
+        public override void SayDefault()
         {
             string message = "\"Croak.\"";
 
@@ -23,6 +23,11 @@ namespace CrockySwamp
                 message = "\"Ribbit.\"";
 
             Console.WriteLine($"Frog {Id} says {message}!");
+        }
+
+        public override void SayHaunt()
+        {
+            throw new NotImplementedException();
         }
 
         public override void Move()

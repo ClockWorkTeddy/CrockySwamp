@@ -139,8 +139,6 @@ namespace CrockySwamp
 
             if (beast != null)
                 DeadBeasts.Add(beast);
-
-
         }
     }
 }

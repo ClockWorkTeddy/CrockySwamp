@@ -12,7 +12,6 @@ namespace CrockySwamp
     {
         internal static void Draw(Swamp swamp)
         {
-            Console.WriteLine($"Frogs remain: {swamp.Beasts.FindAll(b => b is Frog).Count}");
             for (int y = 0; y < swamp.Size; y++)
             {
                 for (int x = 0; x < swamp.Size; x++)
@@ -23,6 +22,7 @@ namespace CrockySwamp
                 }
                 Console.WriteLine();
             }
+            Console.WriteLine($"Frogs remain: {swamp.Beasts.FindAll(b => b is Frog).Count}");
             Console.WriteLine();
         }
         private static string GetSymbol(Field field)
@@ -40,5 +40,8 @@ namespace CrockySwamp
             else
                 return "#008800";
         }
+
+        public static void Talk(string message, string color) =>
+            Console.WriteLine($"{message.Pastel(color)}");
     }
 }

@@ -33,6 +33,8 @@ namespace CrockySwamp
 
         public abstract void Move();
 
-        public abstract void Say();
+        public abstract void SayHaunt();
+
+        public abstract void SayDefault();
     }
 }
