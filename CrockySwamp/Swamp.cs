@@ -25,8 +25,8 @@ namespace CrockySwamp
             Size = size;
             for (int i = 0; i < Size * Size; i++)
             {
-                int x = i / Size;
-                int y = i % Size;
+                int x = i % Size;
+                int y = i / Size;
                 Fields.Add(new Field(new Point(x, y)));
             }
             FrogsCount = Size * Size / 3;

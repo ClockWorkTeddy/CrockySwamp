@@ -16,7 +16,8 @@ namespace CrockySwamp
         private List<string> Phrases = new List<string>() 
         {
             "Roar!",
-            "Harr!"
+            "Harr!",
+            "Where is that frog?!"
         };
 
         public Crock (int x, int y, int id, Swamp swamp) : base(x, y, id, swamp)
@@ -32,7 +33,7 @@ namespace CrockySwamp
                 Talk?.Invoke($"C{Id}: {Phrases[rnd]}", "#008800");
         }
 
-        private static int GetProbability(int phrasesCount)
+        private int GetProbability(int phrasesCount)
         {
             double chanse = 0.2;
             int cases_def = Convert.ToInt16(1 / chanse);
@@ -63,10 +64,7 @@ namespace CrockySwamp
                 if (field.State != Field.FieldState.Crock)
                 {
                     if (field.State == Field.FieldState.Frog)
-                    {
-
                         SwampObj.RemoveFrog(newX, newY);
-                    }
 
                     SwampObj.RefreshFields(Location.X, Location.Y, newX, newY, this);
                     Location = new Point(newX, newY);
