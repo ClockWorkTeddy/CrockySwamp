@@ -17,7 +17,6 @@ namespace CrockySwamp
         public List<Field> Fields { get; set; } = new List<Field>();
         public List<Beast> Beasts { get; set; } = new List<Beast>();
         public List<Beast> DeadBeasts { get; set; } = new List<Beast>();
-        public delegate void SwampDrawer(Swamp swamp);
         public EventHandler? Draw { get; set; }
         public EventHandler<MurderArgs>? Murder { get; set; }
 
