@@ -13,6 +13,8 @@ namespace CrockySwamp
         public override int StepRange { get; set; } = 1;
         public delegate void CrockTalker(string message, string color);
         public CrockTalker? Talk { get; set; }
+        public delegate void CrockMurder(Crock crock, Field field);
+        public CrockMurder? Murder { get; set; }
         private List<string> Phrases = new List<string>() 
         {
             "Roar!",
@@ -28,6 +30,7 @@ namespace CrockySwamp
         public Crock (int x, int y, int id, Swamp swamp) : base(x, y, id, swamp)
         {
             Talk += Drawer.Talk;
+            Murder += swamp.Murd;
         }
 
         public override void SayDefault()
@@ -61,6 +64,7 @@ namespace CrockySwamp
                     if (field.State == Field.FieldState.Frog && field.Beast != null)
                     {
                         SayHaunt(field.Beast.Id);
+                        Murder?.Invoke(this, field);
                         SwampObj.RemoveFrog(newX, newY, this.Id);
                     }
 

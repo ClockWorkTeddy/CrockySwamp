@@ -20,6 +20,10 @@ namespace CrockySwamp
         public delegate void SwampDrawer(Swamp swamp);
         public SwampDrawer? Draw { get; set; }
 
+        public delegate void SwampMurder(Crock crock, Field field);
+        public SwampMurder? Murder { get; set; }
+
+
         public Swamp(int size)
         {
             Size = size;
@@ -142,7 +146,11 @@ namespace CrockySwamp
                 beast.SayHaunt(crockId);
                 DeadBeasts.Add(beast);
             }
+        }
 
+        public void Murd(Crock crock, Field field)
+        {
+            Murder?.Invoke(crock, field);
         }
     }
 }

@@ -22,8 +22,6 @@ namespace CrockySwamp
                 }
                 Console.WriteLine();
             }
-            Console.WriteLine($"Frogs remain: {swamp.Beasts.FindAll(b => b is Frog).Count}");
-            Console.WriteLine();
         }
         private static string GetSymbol(Field field)
         {
