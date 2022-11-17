@@ -10,8 +10,10 @@ namespace CrockySwamp
 {
     internal static class Drawer
     {
-        internal static void Draw(Swamp swamp)
+        internal static void Draw(object sender, EventArgs e)
         {
+            Swamp swamp = (Swamp)sender;
+
             for (int y = 0; y < swamp.Size; y++)
             {
                 for (int x = 0; x < swamp.Size; x++)
@@ -39,7 +41,19 @@ namespace CrockySwamp
                 return "#008800";
         }
 
-        public static void Talk(string message, string color) =>
-            Console.WriteLine($"{message.Pastel(color)}");
+        public static void Talk(object? sender, DrawArgs args) =>
+            Console.WriteLine($"{args.Message.Pastel(args.Color)}");
+    }
+
+    internal class DrawArgs : EventArgs
+    {
+        public string? Message;
+        public string? Color;
+
+        public DrawArgs(string? message, string? color)
+        {
+            Message = message;
+            Color = color;
+        }
     }
 }

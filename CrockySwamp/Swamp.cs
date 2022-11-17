@@ -18,10 +18,8 @@ namespace CrockySwamp
         public List<Beast> Beasts { get; set; } = new List<Beast>();
         public List<Beast> DeadBeasts { get; set; } = new List<Beast>();
         public delegate void SwampDrawer(Swamp swamp);
-        public SwampDrawer? Draw { get; set; }
-
-        public delegate void SwampMurder(Crock crock, Field field);
-        public SwampMurder? Murder { get; set; }
+        public EventHandler? Draw { get; set; }
+        public EventHandler<MurderArgs>? Murder { get; set; }
 
 
         public Swamp(int size)
@@ -42,7 +40,7 @@ namespace CrockySwamp
             for (int i = 0; i < FrogsCount; i++)
                 AddFrog(i + 1);
 
-            Draw?.Invoke(this);
+            Draw?.Invoke(this, new EventArgs());
         }
 
         void AddFrog(int id)
@@ -68,7 +66,7 @@ namespace CrockySwamp
             for (int i = 0; i < CrocksCount; i++)
                 AddCrock(i + 1);
 
-            Draw?.Invoke(this);
+            Draw?.Invoke(this, new EventArgs());
         }
 
         private void AddCrock(int id)
@@ -124,7 +122,7 @@ namespace CrockySwamp
             foreach (var deadBeast in DeadBeasts)
                 Beasts.Remove(deadBeast);
 
-            Draw?.Invoke(this);
+            Draw?.Invoke(this, new EventArgs());
         }
 
         int GetIndex(int x, int y)
@@ -148,9 +146,21 @@ namespace CrockySwamp
             }
         }
 
-        public void Murd(Crock crock, Field field)
+        public void Murd(object? sender, MurderArgs ma)
         {
-            Murder?.Invoke(crock, field);
+            Murder?.Invoke(sender, ma);
+        }
+    }
+
+    internal class MurderArgs : EventArgs
+    {
+        public Crock? Crock;
+        public Field? Field;
+
+        public MurderArgs(Crock crock, Field fiels)
+        {
+            Crock = crock;
+            Field = fiels;
         }
     }
 }

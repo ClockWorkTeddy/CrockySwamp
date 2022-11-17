@@ -14,12 +14,14 @@ namespace CrockySwamp
         protected Swamp SwampObj;
 
         public int Id { get; set; }
+        public event EventHandler<DrawArgs>? Talk;
         
         public Beast(int x, int y, int id, Swamp swamp)
         {
             Location = new Point(x, y);
             Id = id;
             SwampObj = swamp;
+            Talk += Drawer.Talk;
         }
 
         protected int GetNewLocation(int oldLocation)
@@ -43,6 +45,11 @@ namespace CrockySwamp
                 return rnd / cases_def;
             else
                 return -1;
+        }
+
+        protected void OnTalk(object sender, DrawArgs args)
+        {
+            Talk?.Invoke(sender, args);
         }
 
         public abstract void Move();

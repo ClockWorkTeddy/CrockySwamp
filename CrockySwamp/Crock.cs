@@ -11,10 +11,7 @@ namespace CrockySwamp
     internal class Crock : Beast
     {
         public override int StepRange { get; set; } = 1;
-        public delegate void CrockTalker(string message, string color);
-        public CrockTalker? Talk { get; set; }
-        public delegate void CrockMurder(Crock crock, Field field);
-        public CrockMurder? Murder { get; set; }
+        public event EventHandler<MurderArgs>? Murder;
         private List<string> Phrases = new List<string>() 
         {
             "Roar!",
@@ -29,7 +26,6 @@ namespace CrockySwamp
 
         public Crock (int x, int y, int id, Swamp swamp) : base(x, y, id, swamp)
         {
-            Talk += Drawer.Talk;
             Murder += swamp.Murd;
         }
 
@@ -39,7 +35,7 @@ namespace CrockySwamp
             int rnd = GetProbability(Phrases.Count, chance);
             
             if (rnd != -1)
-                Talk?.Invoke($"C{Id}: {Phrases[rnd]}", "#008800");
+                OnTalk(this, new DrawArgs($"C{Id}: {Phrases[rnd]}", "#008800"));
         }
 
         public override void SayHaunt(int id)
@@ -48,7 +44,7 @@ namespace CrockySwamp
             int rnd = GetProbability(HauntPhrases.Count, chance);
             StringBuilder phrase = new StringBuilder().AppendFormat(HauntPhrases[rnd], id);
 
-            Talk?.Invoke($"C{Id}: {phrase}", "#008800");
+            OnTalk(this, new DrawArgs($"C{Id}: {phrase}", "#008800"));
         }
 
         public override void Move()
@@ -64,7 +60,7 @@ namespace CrockySwamp
                     if (field.State == Field.FieldState.Frog && field.Beast != null)
                     {
                         SayHaunt(field.Beast.Id);
-                        Murder?.Invoke(this, field);
+                        Murder?.Invoke(this, new MurderArgs(this, field));
                         SwampObj.RemoveFrog(newX, newY, this.Id);
                     }
 
