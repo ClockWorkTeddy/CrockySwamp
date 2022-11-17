@@ -10,6 +10,7 @@ swamp.InitCrocks();
 
 while (true)
 {
+    Console.Clear();
     swamp.Move();
     char inputKey = Console.ReadKey().KeyChar;
 
