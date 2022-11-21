@@ -21,7 +21,8 @@ namespace CrockySwamp
             "OMG, BIG BAD C{0} IS HERE!",
             "OH NO GET OUT, C{0}!!!"
         };
-        public Frog(int x, int y, int id, Swamp swamp) : base(x, y, id, swamp)
+        public Frog(int index, int id, Swamp swamp) 
+            : base(index, id, swamp)
         {
         }
 
@@ -51,12 +52,12 @@ namespace CrockySwamp
             int newX = GetNewLocation(Location.X);
             int newY = GetNewLocation(Location.Y);
 
-            Field? field = SwampObj.GetField(newX, newY);
+            Field? field = Swamp.GetField(newX, newY);
 
             if (field != null)
                 if (field.State == Field.FieldState.Empty)
                 {
-                    SwampObj.RefreshFields(Location.X, Location.Y, newX, newY, this);
+                    Swamp.RefreshFields(Location.X, Location.Y, newX, newY, this);
                     Location = new Point(newX, newY);
                 }
 

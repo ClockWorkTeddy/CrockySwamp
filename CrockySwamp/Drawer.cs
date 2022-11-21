@@ -10,19 +10,22 @@ namespace CrockySwamp
 {
     internal static class Drawer
     {
-        internal static void Draw(object sender, EventArgs e)
+        internal static void Draw(object? sender, EventArgs e)
         {
-            Swamp swamp = (Swamp)sender;
-
-            for (int y = 0; y < swamp.Size; y++)
+            if (sender != null)
             {
-                for (int x = 0; x < swamp.Size; x++)
+                Swamp swamp = (Swamp)sender;
+
+                for (int y = 0; y < swamp.Size; y++)
                 {
-                    int index = y * swamp.Size + x;
-                    var field = swamp.Fields[index];
-                    Console.Write($"{GetSymbol(field)}  ");
+                    for (int x = 0; x < swamp.Size; x++)
+                    {
+                        int index = y * swamp.Size + x;
+                        var field = swamp.Fields[index];
+                        Console.Write($"{GetSymbol(field)}  ");
+                    }
+                    Console.WriteLine();
                 }
-                Console.WriteLine();
             }
         }
         private static string GetSymbol(Field field)

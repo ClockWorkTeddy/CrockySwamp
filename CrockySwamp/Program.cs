@@ -1,16 +1,15 @@
 ﻿using CrockySwamp;
 
-Console.WriteLine("Hello, Swamp!");
+bool Ongoing = true;
 int size = 5;
+
 Swamp swamp = new(size);
-swamp.Draw += Drawer.Draw;
-
 Naturalist alex = new(swamp, "Alex");
-swamp.Murder += alex.SayHunt;
-swamp.InitFrogs();
-swamp.InitCrocks();
 
-while (true)
+while (Ongoing)
+    NextStep();
+
+void NextStep()
 {
     Console.Clear();
     swamp.Move();
@@ -18,6 +17,6 @@ while (true)
     char inputKey = Console.ReadKey().KeyChar;
 
     if (inputKey == 'q')
-        break;
+        Ongoing= false;
 }
 

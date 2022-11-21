@@ -1,60 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
-using System.Reflection;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Drawing;
 
 namespace CrockySwamp
 {
     internal class Swamp
     {
-        int FrogsCount = 0;
-        int CrocksCount = 0;
+        private List<Beast> DeadBeasts = new List<Beast>();
+
         public int Size { get; set; }
         public List<Field> Fields { get; set; } = new List<Field>();
         public List<Beast> Beasts { get; set; } = new List<Beast>();
-        public List<Beast> DeadBeasts { get; set; } = new List<Beast>();
         public EventHandler? Draw { get; set; }
         public EventHandler<MurderArgs>? Murder { get; set; }
-
 
         public Swamp(int size)
         {
             Size = size;
+            Draw += Drawer.Draw;
+            InitFields();
+            InitFrogs();
+            InitCrocks();
+        }
+
+        private void InitFields()
+        {
             for (int i = 0; i < Size * Size; i++)
             {
                 int x = i % Size;
                 int y = i / Size;
                 Fields.Add(new Field(new Point(x, y)));
             }
-            FrogsCount = Size * Size / 3;
-            CrocksCount = FrogsCount / 3;
         }
 
         public void InitFrogs()
         {
-            for (int i = 0; i < FrogsCount; i++)
-                AddFrog(i + 1);
+            int frogsCount = Size * Size / 3;
 
-            Draw?.Invoke(this, new EventArgs());
+            for (int i = 0; i < frogsCount; i++)
+                AddFrog(i + 1);
         }
 
         void AddFrog(int id)
         {
-            Random rnd = new Random();
-            int x, y, index = 0;
-            do
-            {
-                x = rnd.Next(Size);
-                y = rnd.Next(Size);
-                index = GetIndex(x, y);
-            } 
-            while (Fields[index].State != Field.FieldState.Empty);
-
-            Frog newFrog = new Frog(x, y, id, this);
+            int index = GetIndex();
+            Frog newFrog = new Frog(index, id, this);
             Beasts.Add(newFrog);
             Fields[index].Beast = newFrog;
             Fields[index].State = Field.FieldState.Frog;
@@ -62,28 +50,30 @@ namespace CrockySwamp
 
         public void InitCrocks()
         {
-            for (int i = 0; i < CrocksCount; i++)
-                AddCrock(i + 1);
+            int crocksCount = Size * Size / 9;
 
-            Draw?.Invoke(this, new EventArgs());
+            for (int i = 0; i < crocksCount; i++)
+                AddCrock(i + 1);
         }
 
         private void AddCrock(int id)
         {
-            Random rnd = new Random();
-            int x, y, index = 0;
-            do
-            {
-                x = rnd.Next(Size);
-                y = rnd.Next(Size);
-                index = GetIndex(x, y);
-            }
-            while (Fields[index].State != Field.FieldState.Empty);
-
-            Crock newCrock = new(x, y, id, this);
+            int index = GetIndex();
+            Crock newCrock = new(index, id, this);
             Beasts.Add(newCrock);
             Fields[index].Beast = newCrock;
             Fields[index].State = Field.FieldState.Crock;
+        }
+
+        private int GetIndex()
+        {
+            Random rnd = new Random();
+            int index = 0;
+            
+            while (Fields[index].State != Field.FieldState.Empty) ;
+                index = rnd.Next(Size * Size);
+
+            return index;
         }
 
         public Field? GetField(int x, int y)
@@ -110,7 +100,6 @@ namespace CrockySwamp
                 Fields[newIndex].State = Field.FieldState.Frog;
             else
                 Fields[newIndex].State = Field.FieldState.Crock;
-
         }
 
         public void Move()
@@ -156,10 +145,10 @@ namespace CrockySwamp
         public Crock? Crock;
         public Field? Field;
 
-        public MurderArgs(Crock crock, Field fiels)
+        public MurderArgs(Crock crock, Field field)
         {
             Crock = crock;
-            Field = fiels;
+            Field = field;
         }
     }
 }

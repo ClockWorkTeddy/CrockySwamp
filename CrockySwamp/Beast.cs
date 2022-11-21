@@ -9,19 +9,31 @@ namespace CrockySwamp
 {
     internal abstract class Beast
     {
+
         public Point Location { get; set; }
-        public abstract int StepRange {get; set;}
-        protected Swamp SwampObj;
+        protected Swamp Swamp;
 
         public int Id { get; set; }
+        public int Index =>
+            Swamp.Size * Location.Y + Location.X;
+
         public event EventHandler<DrawArgs>? Talk;
-        
-        public Beast(int x, int y, int id, Swamp swamp)
+        public abstract int StepRange { get; set; }
+
+        public Beast(int index, int id, Swamp swamp)
         {
-            Location = new Point(x, y);
+            Swamp = swamp;
+            Location = GetLocFromIndex(index);
             Id = id;
-            SwampObj = swamp;
             Talk += Drawer.Talk;
+        }
+
+        private Point GetLocFromIndex(int index)
+        {
+            int x = index % Swamp.Size;
+            int y = index / Swamp.Size;
+
+            return new Point(x, y);
         }
 
         protected int GetNewLocation(int oldLocation)
@@ -30,7 +42,6 @@ namespace CrockySwamp
             int direction = random.Next(-1, 2);
 
             return oldLocation + direction * StepRange;
-
         }
 
         protected int GetProbability(int phrasesCount, double chance)

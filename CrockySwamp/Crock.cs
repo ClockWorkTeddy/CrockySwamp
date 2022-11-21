@@ -24,7 +24,8 @@ namespace CrockySwamp
             "Come here, little F{0}!.."
         };
 
-        public Crock (int x, int y, int id, Swamp swamp) : base(x, y, id, swamp)
+        public Crock (int index, int id, Swamp swamp) 
+            : base(index, id, swamp)
         {
             Murder += swamp.Murd;
         }
@@ -52,7 +53,7 @@ namespace CrockySwamp
             int newX = GetNewLocation(Location.X);
             int newY = GetNewLocation(Location.Y);
 
-            Field? field = SwampObj.GetField(newX, newY);
+            Field? field = Swamp.GetField(newX, newY);
 
             if (field != null)
                 if (field.State != Field.FieldState.Crock)
@@ -61,10 +62,10 @@ namespace CrockySwamp
                     {
                         SayHaunt(field.Beast.Id);
                         Murder?.Invoke(this, new MurderArgs(this, field));
-                        SwampObj.RemoveFrog(newX, newY, this.Id);
+                        Swamp.RemoveFrog(newX, newY, this.Id);
                     }
 
-                    SwampObj.RefreshFields(Location.X, Location.Y, newX, newY, this);
+                    Swamp.RefreshFields(Location.X, Location.Y, newX, newY, this);
                     Location = new Point(newX, newY);
                 }
 
