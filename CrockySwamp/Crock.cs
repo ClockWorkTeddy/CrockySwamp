@@ -27,7 +27,6 @@ namespace CrockySwamp
         public Crock (int index, int id, Swamp swamp) 
             : base(index, id, swamp)
         {
-            Murder += swamp.Murd;
         }
 
         public override void SayDefault()

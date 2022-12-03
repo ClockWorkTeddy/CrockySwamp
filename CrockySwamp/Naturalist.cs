@@ -27,7 +27,11 @@ namespace CrockySwamp
             Name = name;
             Swamp = swamp;
             Talk += Drawer.Talk;
-            Swamp.Murder = this.SayHunt;
+            foreach (var field in Swamp.Fields)
+            {
+                if (field.Beast is Crock crock)
+                    crock.Murder += SayHunt;
+            }
         }
 
         public void Observe()

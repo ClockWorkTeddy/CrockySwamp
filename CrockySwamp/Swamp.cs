@@ -10,7 +10,6 @@ namespace CrockySwamp
         public List<Field> Fields { get; set; } = new List<Field>();
         public List<Beast> Beasts { get; set; } = new List<Beast>();
         public EventHandler? Draw { get; set; }
-        public EventHandler<MurderArgs>? Murder { get; set; }
 
         public Swamp(int size)
         {
@@ -70,7 +69,7 @@ namespace CrockySwamp
             Random rnd = new Random();
             int index = 0;
             
-            while (Fields[index].State != Field.FieldState.Empty) ;
+            while (Fields[index].State != Field.FieldState.Empty)
                 index = rnd.Next(Size * Size);
 
             return index;
@@ -132,11 +131,6 @@ namespace CrockySwamp
                 beast.SayHaunt(crockId);
                 DeadBeasts.Add(beast);
             }
-        }
-
-        public void Murd(object? sender, MurderArgs ma)
-        {
-            Murder?.Invoke(sender, ma);
         }
     }
 
