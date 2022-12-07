@@ -13,7 +13,7 @@ namespace CrockySwamp
         {
             List<string> messages = new List<string>();
 
-            Server = new TcpListener(IPAddress.Parse("192.168.31.243"), 8888);
+            Server = new TcpListener(IPAddress.Parse(""), 8888);
             Server.Start();
             Client = await Server.AcceptTcpClientAsync();
 
