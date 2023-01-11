@@ -7,46 +7,38 @@ namespace CrockySwamp
 {
     public static class Program
     {
-        static TcpListener Server;
-        static TcpClient Client;
+        static TcpListener? Server;
+        static TcpClient? Client = new TcpClient();
         async public static Task Main(string[] args)
         {
-            List<string> messages = new List<string>();
+            await AwaitClient();
+            
+            var setUpData = (await XTalk(SetGreetings())).Split(new char[] { ' ' });
 
-            Server = new TcpListener(IPAddress.Parse(""), 8888);
-            Server.Start();
-            Client = await Server.AcceptTcpClientAsync();
+            Swamp swamp = new(Convert.ToInt16(setUpData[0]));
+            Naturalist naturalist = new(swamp, setUpData[1]);
 
-            List<string> greetings = SetGreetings();
-
-            var setUpData = await XTalk(greetings);
-
-            int size = Convert.ToInt16(setUpData.Split(new char[] { ' ' })[0]);
-            string name = setUpData.Split(new char[] { ' ' })[1];
-
-            Swamp swamp = new(size);
-            Naturalist naturalist = new(swamp, name);
-
-            while (await XTalk(new List<string> { "press" }) != "q")
+            do
+            {
                 NextStep(swamp, naturalist);
+            }
+            while (await XTalk(new List<string> { "press" }) != "q");
 
-
-            Server.Stop();
+            Server?.Stop();
         }
 
-        async static Task<string> GetStartUpData()
+        async static Task AwaitClient()
         {
-            var stream = Client.GetStream();
-
-            StartUp(stream);
-
-            var result = await ReceiveClientData(stream);
-
-            return result;
+            Server = new TcpListener(IPAddress.Parse("192.168.0.53"), 8888);
+            Server.Start();
+            Client = await Server.AcceptTcpClientAsync();
         }
 
         async static Task<string> XTalk(List<string> messages)
         {
+            if (Client == null)
+                return "";
+
             var stream = Client.GetStream();
 
             if (messages.Count > 0)
@@ -55,20 +47,12 @@ namespace CrockySwamp
                 await stream.WriteAsync(responce);
             }
 
-            var result = await ReceiveClientData(stream);
+            var result = ReceiveClientData(stream);
 
             return result;
         }
 
-        async static void StartUp(NetworkStream stream)
-        {
-            List<string> greetings = SetGreetings();
-
-            var responce = GetResponce(greetings);
-            await stream.WriteAsync(responce);
-        }
-
-        async static Task<string> ReceiveClientData(NetworkStream stream)
+        static string ReceiveClientData(NetworkStream stream)
         {
             int bytesRead = 10;
             List<byte> query = new List<byte>();
@@ -107,6 +91,7 @@ namespace CrockySwamp
             Console.Clear();
             swamp.Move();
             naturalist.Observe();
+            Drawer.Print();
         }
     }
 }

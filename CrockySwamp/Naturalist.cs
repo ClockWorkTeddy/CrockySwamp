@@ -26,7 +26,7 @@ namespace CrockySwamp
         {
             Name = name;
             Swamp = swamp;
-            Talk += Drawer.Talk;
+            Talk += Drawer.CollectMessages;
             foreach (var field in Swamp.Fields)
             {
                 if (field.Beast is Crock crock)

@@ -25,7 +25,7 @@ namespace CrockySwamp
             Swamp = swamp;
             Location = GetLocFromIndex(index);
             Id = id;
-            Talk += Drawer.Talk;
+            Talk += Drawer.CollectMessages;
         }
 
         private Point GetLocFromIndex(int index)

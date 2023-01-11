@@ -10,8 +10,12 @@ namespace CrockySwamp
 {
     internal static class Drawer
     {
+        static Dictionary<string, string> PhrasesToSay = new Dictionary<string, string>();
+        static string NaturalistPhrase = "";
         internal static void Draw(object? sender, EventArgs e)
         {
+            Console.Clear();
+
             if (sender != null)
             {
                 Swamp swamp = (Swamp)sender;
@@ -44,8 +48,24 @@ namespace CrockySwamp
                 return "#008800";
         }
 
-        public static void Talk(object? sender, DrawArgs args) =>
-            Console.WriteLine($"{args.Message.Pastel(args.Color)}");
+        public static void CollectMessages(object? sender, DrawArgs args)
+        {
+            if (args.Message != null && args.Color != null)
+                if (args.Color == "#0088ff")
+                    NaturalistPhrase = args.Message;
+                else
+                    PhrasesToSay[args.Message] = args.Color;
+        }
+
+        public static void Print()
+        {
+            Console.WriteLine($"{NaturalistPhrase.Pastel("#0088ff")}");
+
+            foreach (var valuePair in PhrasesToSay)
+                Console.WriteLine($"{valuePair.Key.Pastel(valuePair.Value)}");
+
+            PhrasesToSay.Clear();
+        }
     }
 
     internal class DrawArgs : EventArgs
