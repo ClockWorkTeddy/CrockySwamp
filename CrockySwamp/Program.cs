@@ -29,7 +29,7 @@ namespace CrockySwamp
 
         async static Task AwaitClient()
         {
-            Server = new TcpListener(IPAddress.Parse("192.168.0.53"), 8888);
+            Server = new TcpListener(IPAddress.Parse("192.168.0.53"), 8887);
             Server.Start();
             Client = await Server.AcceptTcpClientAsync();
         }
